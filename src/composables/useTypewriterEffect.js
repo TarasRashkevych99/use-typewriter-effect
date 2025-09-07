@@ -1,6 +1,6 @@
 import { ref, readonly } from 'vue'
 
-export function useTypewriterEffect(options) {
+export function useTypewriterEffect(options = {}) {
     const _text = ref('')
     const isWriting = ref(false)
     let _inputText = ''
@@ -8,6 +8,10 @@ export function useTypewriterEffect(options) {
     let _interval = -1
     let _stopped = false
     let _resuming = false
+    let _defaultOptions = {
+        speed: 10,
+        numberOfSymbols: 1
+    }
     let _options = _setOptions(options)
 
     function write(inputText) {
@@ -32,6 +36,7 @@ export function useTypewriterEffect(options) {
             else {
                 clearInterval(_interval)
                 _interval = -1
+                _inputText = ''
                 _currentIndex = 0
                 isWriting.value = false
             }
@@ -68,25 +73,27 @@ export function useTypewriterEffect(options) {
     function _setOptions(inputOptions) {
         console.log("Input options", inputOptions)
 
-        let defaultOptions = {
-            speed: 10,
-            numberOfSymbols: 1
+        let finalOptions = { ..._defaultOptions }
+
+        if (inputOptions.speed !== undefined && typeof inputOptions.speed === 'number' && inputOptions.speed > 0) {
+            finalOptions.speed = inputOptions.speed
+        } else if (inputOptions.speed !== undefined && typeof inputOptions.speed !== 'number') {
+            console.warn(`the speed option should be of type 'number'. The defualt value of ${finalOptions.speed}ms will be used`)
+        } else if (inputOptions.speed !== undefined && inputOptions.speed <= 0) {
+            console.warn(`the speed option should be a number greater then 0. The defualt value of ${finalOptions.speed}ms will be used`)
         }
 
-        if (inputOptions.speed && typeof inputOptions.speed === 'number' && inputOptions.speed > 0) {
-            defaultOptions.speed = inputOptions.speed
-        } else if (inputOptions.speed) {
-            console.warn(`the speed option should be a valid number greater then 0. The defualt value ${defaultOptions.speed} will be used`)
-        }
-        if (inputOptions.numberOfSymbols && typeof inputOptions.numberOfSymbols === 'number' && inputOptions.numberOfSymbols >= 1) {
-            defaultOptions.numberOfSymbols = Math.ceil(inputOptions.numberOfSymbols)
-        } else if (inputOptions.numberOfSymbols) {
-            console.warn(`the numberOfSymbols option should be a valid number greater or equal to 1. The defualt value ${defaultOptions.numberOfSymbols} will be used`)
+        if (inputOptions.numberOfSymbols !== undefined && typeof inputOptions.numberOfSymbols === 'number' && inputOptions.numberOfSymbols >= 1) {
+            finalOptions.numberOfSymbols = Math.ceil(inputOptions.numberOfSymbols)
+        } else if (inputOptions.numberOfSymbols !== undefined && typeof inputOptions.numberOfSymbols !== 'number') {
+            console.warn(`the numberOfSymbols option should be of type 'number'. The defualt value of ${finalOptions.numberOfSymbols} symbols will be used`)
+        } else if (inputOptions.numberOfSymbols !== undefined && inputOptions.numberOfSymbols <= 0) {
+            console.warn(`the numberOfSymbols option should be a number greater or equal to 1. The defualt value of ${finalOptions.numberOfSymbols} symbols will be used`)
         }
 
-        console.log("Final options", defaultOptions)
+        console.log("Final options", finalOptions)
 
-        return defaultOptions
+        return finalOptions
     }
 
     function _ifNotStringThrow(inputText) {

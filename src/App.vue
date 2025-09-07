@@ -10,7 +10,7 @@ const {
   stop,
   resume } = useTypewriterEffect({
     speed: 10,
-    numberOfSymbols: 1.5
+    numberOfSymbols: 2
   })
 
 function handlerWrite() {
