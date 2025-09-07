@@ -1,6 +1,6 @@
 # use-typewriter-effect
 
-This template should help get you started developing with Vue 3 in Vite.
+A composable that manages the typewriter effect of piace of text and provides useful functionalities to manage its state
 
 ## Recommended IDE Setup
 
