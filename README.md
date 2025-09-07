@@ -1,6 +1,6 @@
-# use-typewriter-effect
+# Typewriter Effect Composable
 
-A composable that manages the typewriter effect of piace of text and provides useful functionalities to manage its state
+A composable that manages the typewriter effect of piace of text and provides useful functionalities to manage its state.
 
 ## Recommended IDE Setup
 
