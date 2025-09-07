@@ -31,6 +31,8 @@ export function useTypewriterEffect(options) {
             }
             else {
                 clearInterval(_interval)
+                _interval = -1
+                _currentIndex = 0
                 isWriting.value = false
             }
         }, _options.speed)
