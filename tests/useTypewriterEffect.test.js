@@ -58,16 +58,16 @@ describe("Test useTypewritterEffect composable", () => {
 
         stop()
 
-        expect(text.value, 'text is an empty string after writing for the first time').not.toEqual(emptyString)
-        expect(text.value, 'text has been written out completely only after one iteration of the timer').not.toEqual(testText)
+        expect(text.value, 'text is an empty string after stopping').not.toEqual(emptyString)
+        expect(text.value, 'text has been written out completely only after stopping').not.toEqual(testText)
         expect(isWriting.value, 'isWriting is true after stopping').toEqual(false)
 
         resume()
 
         vi.advanceTimersToNextTimer()
-        expect(text.value, 'text is an empty string after writing for 2 iterations of the timer').not.toEqual(emptyString)
-        expect(text.value, 'text has been written out completely only after two iterations of the timer').not.toEqual(testText)
-        expect(isWriting.value, 'isWriting is false while writing').toEqual(true)
+        expect(text.value, 'text is an empty string after resuming and writing for one iteration').not.toEqual(emptyString)
+        expect(text.value, 'text has been written out completely after resuming and writing for one iteration which should not be enough').not.toEqual(testText)
+        expect(isWriting.value, 'isWriting is false after resuming and writing not until complition').toEqual(true)
 
         vi.advanceTimersByTime(twoSeconds)
         expect(text.value, 'text is an empty string after writing for 2 seconds').not.toEqual(emptyString)
