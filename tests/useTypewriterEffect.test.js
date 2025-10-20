@@ -29,50 +29,49 @@ describe("Test useTypewritterEffect composable", () => {
     beforeEach(() => {
         reset()
 
-        // before writing anything
-        expect(text.value).toEqual(emptyString)
-        expect(isWriting.value).toEqual(false)
+        expect(text.value, 'text is not an empty string before writing for the first time').toEqual(emptyString)
+        expect(isWriting.value, 'isWriting is not false before writing for the first time').toEqual(false)
     })
 
     test('write function', () => {
         write(testText)
 
         vi.advanceTimersToNextTimer()
-        expect(text.value).not.toEqual(emptyString)
-        expect(text.value).not.toEqual(testText)
-        expect(isWriting.value).toEqual(true)
+        expect(text.value, 'text is an empty string').not.toEqual(emptyString)
+        expect(text.value, 'text has been written out completely').not.toEqual(testText)
+        expect(isWriting.value, 'isWriting is false while writing').toEqual(true)
 
         // after writing for 2 seconds that in this case means untill complition
         vi.advanceTimersByTime(twoSeconds)
-        expect(text.value).not.toEqual(emptyString)
-        expect(text.value).toEqual(testText)
-        expect(isWriting.value).toEqual(false)
+        expect(text.value, 'text is an empty string after writing for 2 seconds').not.toEqual(emptyString)
+        expect(text.value, 'text has not been written out completely after writing for 2 seconds').toEqual(testText)
+        expect(isWriting.value, 'isWriting is still true after writing until complition').toEqual(false)
     })
 
     test('stop and resume functions', () => {
         write(testText)
 
         vi.advanceTimersToNextTimer()
-        expect(text.value).not.toEqual(emptyString)
-        expect(text.value).not.toEqual(testText)
-        expect(isWriting.value).toEqual(true)
+        expect(text.value, 'text is an empty string').not.toEqual(emptyString)
+        expect(text.value, 'text has been written out completely').not.toEqual(testText)
+        expect(isWriting.value, 'isWriting is false while writing').toEqual(true)
 
         stop()
 
-        expect(text.value).not.toEqual(emptyString)
-        expect(text.value).not.toEqual(testText)
-        expect(isWriting.value).toEqual(false)
+        expect(text.value, 'text is an empty string after writing for the first time').not.toEqual(emptyString)
+        expect(text.value, 'text has been written out completely only after one iteration of the timer').not.toEqual(testText)
+        expect(isWriting.value, 'isWriting is true after stopping').toEqual(false)
 
         resume()
 
         vi.advanceTimersToNextTimer()
-        expect(text.value).not.toEqual(emptyString)
-        expect(text.value).not.toEqual(testText)
-        expect(isWriting.value).toEqual(true)
+        expect(text.value, 'text is an empty string after writing for 2 iterations of the timer').not.toEqual(emptyString)
+        expect(text.value, 'text has been written out completely only after two iterations of the timer').not.toEqual(testText)
+        expect(isWriting.value, 'isWriting is false while writing').toEqual(true)
 
         vi.advanceTimersByTime(twoSeconds)
-        expect(text.value).not.toEqual(emptyString)
-        expect(text.value).toEqual(testText)
-        expect(isWriting.value).toEqual(false)
+        expect(text.value, 'text is an empty string after writing for 2 seconds').not.toEqual(emptyString)
+        expect(text.value, 'text has not been written out completely after writing for 2 seconds').toEqual(testText)
+        expect(isWriting.value, 'isWriting is still true after writing until complition').toEqual(false)
     })
 })
