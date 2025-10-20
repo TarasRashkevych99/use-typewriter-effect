@@ -4,7 +4,6 @@ import { describe, expect, test, vi, beforeEach, beforeAll, afterAll } from "vit
 const testText = 'This is a test text'
 const emptyString = ''
 const twoSeconds = 2000
-const tenMilliseconds = 10
 
 const {
     text,
@@ -38,8 +37,7 @@ describe("Test useTypewritterEffect composable", () => {
     test('write function', () => {
         write(testText)
 
-        // after writing for 10 milliseconds
-        vi.advanceTimersByTime(tenMilliseconds)
+        vi.advanceTimersToNextTimer()
         expect(text.value).not.toEqual(emptyString)
         expect(text.value).not.toEqual(testText)
         expect(isWriting.value).toEqual(true)
@@ -54,7 +52,7 @@ describe("Test useTypewritterEffect composable", () => {
     test('stop and resume functions', () => {
         write(testText)
 
-        vi.advanceTimersByTime(tenMilliseconds)
+        vi.advanceTimersToNextTimer()
         expect(text.value).not.toEqual(emptyString)
         expect(text.value).not.toEqual(testText)
         expect(isWriting.value).toEqual(true)
@@ -67,7 +65,7 @@ describe("Test useTypewritterEffect composable", () => {
 
         resume()
 
-        vi.advanceTimersByTime(tenMilliseconds)
+        vi.advanceTimersToNextTimer()
         expect(text.value).not.toEqual(emptyString)
         expect(text.value).not.toEqual(testText)
         expect(isWriting.value).toEqual(true)
