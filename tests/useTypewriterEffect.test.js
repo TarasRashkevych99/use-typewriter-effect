@@ -59,7 +59,7 @@ describe("Test useTypewritterEffect composable", () => {
         stop()
 
         expect(text.value, 'text is an empty string after stopping').not.toEqual(emptyString)
-        expect(text.value, 'text has been written out completely only after stopping').not.toEqual(testText)
+        expect(text.value, 'text has been written out completely after stopping').not.toEqual(testText)
         expect(isWriting.value, 'isWriting is true after stopping').toEqual(false)
 
         resume()
